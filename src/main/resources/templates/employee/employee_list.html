@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+
+<title>社員情報一覧</title>
+</head>
+
+<body class="bg-light">
+<div th:replace="~{com/COM10::COM10}"></div>
+<div class="container bg-white shadow-sm border mx-auto py-5 my-3" style="max-width: 45em;">
+
+	<!-- 各注意文を表示する-->
+	<div class="text-danger" th:text="${Result}"></div>
+
+	<form method="post" action="/employee/list" name="forms">
+
+		<p>
+			<button type="button" class="btn btn-outline-primary"
+				onclick="location.href='/employee/edit'">社員新規登録</button>
+		</p>
+		<table class="my-5 table table-sm table-striped table-bordered">
+			<thead>
+				<tr class="table-primary">
+					<th scope="col"><input type="checkbox" disabled='disabled'
+						checked='checked'></th>
+					<th scope="col">#</th>
+					<th scope="col">社員名</th>
+					<th scope="col">所属グループ</th>
+					<th scope="col">所属チーム</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="item:${employee_list}">
+					<th scope="row"><input type="checkbox" name="selectCheck"
+						th:value="${item.employee_id}"></th>
+					<td th:text="${item.employee_id}"></td>
+					<td class="position-relative"><a
+						th:href="@{/employee/edit?id={employee_id}(employee_id=${item.employee_id})}"
+						class="stretched-link" th:text="${item.employee_name}"> </a></td>
+
+					<!-- ★substringBefore/Afterを利用し、区切り文字の前後を表示 -->
+					<td th:text="${#strings.substringBefore(item.employee_category,',')}"></td>
+					<td th:text="${#strings.substringAfter(item.employee_category,',')}"></td>
+
+				</tr>
+			</tbody>
+
+		</table>
+		<div class="mt-5 row">
+			<div class="col form-inline">
+				<label class="col-form-label" for="adminPW">管理者PW</label>
+				<input class="ml-3 form-control" type="password" id="adminPW" name="adminPW">
+				<button type="submit" class="btn btn-outline-primary ml-3">選択した社員を削除（管理者のみ）</button>
+			</div>
+		</div>
+	</form>
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</body>
+
+</html>

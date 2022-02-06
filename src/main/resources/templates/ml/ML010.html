@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <title>メニュー</title>
+</head>
+
+<body class="bg-light">
+	<div th:replace="~{com/COM10::COM10}"></div>
+
+    <div class="container">
+    <div class="card mx-auto m-5 mx-3 shadow">
+
+        <div class="card-header text-white bg-info">
+            メニュー
+        </div>
+        <div class="card-body">
+                <div class="row mx-auto">
+                    <a class="text-center m-3" href="/report/list">
+                        <img class="rounded-lg mx-auto d-block shadow" src="/img/report.png" alt="面談報告書">
+                        <span class="text-body">面談報告書</span>
+                    </a>
+                    <a class="text-center m-3" href="/employee/list" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <img class="rounded-lg mx-auto d-block shadow" src="/img/employee.png" alt="マスタ一覧">
+                        <span class="text-body">社員情報</span>
+                    </a>
+                    <a class="text-center m-3" href="/client/list" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <img class="rounded-lg mx-auto d-block shadow" src="/img/client.png" alt="マスタ一覧">
+                        <span class="text-body">顧客情報</span>
+                    </a>
+                </div>
+          </div>
+
+    </div>
+    </div>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
