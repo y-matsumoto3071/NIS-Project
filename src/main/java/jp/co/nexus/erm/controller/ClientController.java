@@ -69,7 +69,7 @@ public class ClientController {
 	 * ・チェックボックス未選択
 	 * ・パスワード誤入力
 	 */
-	@PostMapping("/list")
+	@PostMapping("/delete")
 	public String deleteClient(@RequestParam(name = "selectCheck", required = false) String[] c_id,
 			@RequestParam(name = "adminPW", defaultValue = "") String adminPW,
 			RedirectAttributes attr) {

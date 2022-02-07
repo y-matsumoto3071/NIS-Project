@@ -20,7 +20,7 @@
 	<!-- 各注意文を表示する-->
 	<div class="text-danger" th:text="${Result}"></div>
 
-	<form method="post" action="/client/list" name="forms">
+	<form method="post" action="/client/delete" name="deleteClient">
 
 			<p>
 				<button type="button" class="btn btn-outline-primary"
@@ -47,12 +47,8 @@
 
 				</tbody>
 			</table>
-			<div class="mt-5 row">
-				<div class="col form-inline">
-					<label class="col-form-label" for="adminPW">管理者PW</label> <input
-						class="ml-3 form-control" type="password" id="adminPW" name="adminPW">
-					<button type="submit" class="btn btn-outline-primary ml-3">選択した顧客を削除（管理者のみ）</button>
-				</div>
+			<div class="mt-5 row" sec:authorize="hasRole('ROLE_ADMIN')">
+				<button type="button" onclick="emptyCheck()" class="btn btn-outline-primary ml-3">選択した顧客を削除</button>
 			</div>
 	</form>
 	</div>
@@ -67,6 +63,7 @@
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
 		crossorigin="anonymous"></script>
 	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/client/client_list.js"></script>
 </body>
 
 </html>
