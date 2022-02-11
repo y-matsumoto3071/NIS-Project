@@ -38,18 +38,12 @@ public class Client {
 	 * @param map 顧客情報テーブルから抽出したレコード
 	 */
 	public Client(Map<String, Object> map) {
-		this();
+		this.client_id = map.get("client_id").toString();
+		this.client_name = map.get("client_name").toString();
+		this.deleteflg = map.get("deleteflg").toString();
+		this.createdate = map.get("createdate").toString();
+		this.updatedate = map.get("updatedate").toString();
 		
-		try {
-			this.client_id = map.get("client_id").toString();
-			this.client_name = map.get("client_name").toString();
-			this.deleteflg = map.get("deleteflg").toString();
-			this.createdate = map.get("createdate").toString();
-			this.updatedate = map.get("updatedate").toString();
-			
-		} catch(NullPointerException e) {
-			// mapがnullの場合は何もしない
-		}
 	}
 
 	public String getClient_id() {

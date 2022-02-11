@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -92,9 +93,10 @@ public class ClientDao {
 			// クエリを実行
 			clt = jdbcTemplate.queryForMap(sql, param);
 			
-		}catch(Exception e) {
-			e.printStackTrace();
-			
+		}catch(EmptyResultDataAccessException e) {
+			System.out.println("ClientDao.searchClient()でEmptyResultDataAccessExceptionをcatchしました:\n"
+					+ "パラメータ " + clientId + " でのデータ取得結果は" + e.getActualSize() + "件です。\n"
+					+ clt + " を返します。");
 		}
 
 		// 取得したデータを返す

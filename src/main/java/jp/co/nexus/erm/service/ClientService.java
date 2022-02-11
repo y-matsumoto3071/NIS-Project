@@ -133,7 +133,12 @@ public class ClientService{
 	 */
     public Client searchClient(Integer clientId){
     	Map<String, Object> map = clientDao.searchClient(clientId);
-    	Client client = new Client(map);
+    	Client client = null;
+    	
+    	if (map != null) {
+    		client = new Client(map);
+    		
+    	}
     	return client;
     }
 

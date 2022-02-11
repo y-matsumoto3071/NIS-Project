@@ -6,8 +6,6 @@ package jp.co.nexus.erm.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,9 +36,6 @@ public class ClientController {
 	ClientService clientService;
 
 	@Autowired
-	HttpSession session;
-
-	@Autowired
 	PasswordService passwordService;
 
 	/**
@@ -55,9 +50,6 @@ public class ClientController {
 
 		List<Map<String, Object>> list = clientService.searchActive();
 		model.addAttribute("client_list", list);
-
-		//編集に使ったセッションを削除
-		session.removeAttribute("c_id");
 
 		return res;
 	}
@@ -119,13 +111,22 @@ public class ClientController {
 		// 画面遷移先を顧客情報登録画面に指定
 		String res = "client/client_edit";
 
-		Client client = new Client();
+		Client client = null;
 
-		// 既存社員情報の編集時判定
-		if (c_id != null) {
+		// 顧客情報登録画面遷移時の処理
+		if (c_id == null) {
+			client = new Client();
+			
+		// 顧客編集画面遷移時の処理
+		} else {
 			//選択された顧客情報を抽出
 			client = clientService.searchClient(c_id);
-
+			
+			// 不正パラメータアクセス時の処理
+			if (client == null) {
+				res = "redirect:/client/edit";
+			}
+			
 		}
 
 		//編集画面に顧客名を表示
@@ -138,8 +139,8 @@ public class ClientController {
 	 * CC-010-020_顧客新規登録内容DB登録
 	 * CE-010-020_顧客編集内容DB登録
 	 */
-	@PostMapping("/edit")
-	public String createClient(@RequestParam("c_Name") String c_name,
+	@PostMapping("/regist")
+	public String createClient(@RequestParam("client_name") String c_name,
 			@RequestParam(name = "client_id", defaultValue = "") String c_id,
 			Model model,
 			RedirectAttributes attr) {
@@ -150,13 +151,16 @@ public class ClientController {
 		// 編集中かどうかを判定するフラグ
 		boolean isUpdating = !(c_id.equals(""));
 
+		// 無効な入力値かどうかを判定するフラグ
+		boolean invalid = false;
+
 		// エラーメッセージを格納する変数をインスタンス化
 		String attributeValue = new String();
 
 		// 未入力チェック
 		if (c_name.equals("")) {
+			invalid = true;
 			attributeValue = "名前を入力してください。";
-			res = "redirect:/client/edit";
 
 		// 未入力以外
 		} else {
@@ -165,19 +169,20 @@ public class ClientController {
 
 			// 社名が重複している場合はリダイレクト先を編集画面へ指定
 			if (attributeValue.equals("社名が重複しています。")) {
-				if (isUpdating) {
-					res = "redirect:/client/edit?id=" + c_id;
-				} else {
-					res = "redirect:/client/edit";
-				}
-			} else {
-				// 編集中であればセッションを削除
-				if (isUpdating) {
-					session.removeAttribute("c_id");
-				}
+				invalid = true;
 			}
 		}
 
+		// 入力値が無効な場合は編集画面へリダイレクト
+		if (invalid) {
+			if (isUpdating) {
+				res = "redirect:/client/edit?id=" + c_id;
+			} else {
+				res = "redirect:/client/edit";
+			}
+			
+		}
+		
 		attr.addFlashAttribute("Result", attributeValue);
 		return res;
 	}
