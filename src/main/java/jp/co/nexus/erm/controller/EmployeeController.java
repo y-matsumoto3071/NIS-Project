@@ -126,7 +126,7 @@ public class EmployeeController {
 	 * @param e_id 編集対象の社員ID
 	 */
 	@GetMapping("/edit")
-	public String employeeEdit(@RequestParam(name="id", defaultValue = "") Integer e_id,
+	public String editEmployee(@RequestParam(name="id", defaultValue = "") Integer e_id,
 			Model model) {
 
 		// 画面遷移先を社員情報一覧画面に指定

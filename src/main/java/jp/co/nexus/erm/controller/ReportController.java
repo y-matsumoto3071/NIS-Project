@@ -24,22 +24,22 @@ public class ReportController {
 	}
 
 	@GetMapping("/browse")
-	public String reportBrowse() {
+	public String browseReport() {
 		return "report/report_browse";
 	}
 
 	@GetMapping("/create")
-	public String reportCreate() {
+	public String createReport() {
 		return "report/report_create";
 	}
 
 	@GetMapping("/edit")
-	public String reportEdit() {
+	public String editReport() {
 		return "report/report_edit";
 	}
 
 	@GetMapping("/confirm")
-	public String reportConfirm() {
+	public String confirmReport() {
 		return "report/report_confirm";
 	}
 

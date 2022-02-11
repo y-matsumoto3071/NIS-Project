@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jp.co.nexus.erm.model.Client;
 import jp.co.nexus.erm.service.ClientService;
 import jp.co.nexus.erm.service.PasswordService;
 
@@ -47,7 +48,7 @@ public class ClientController {
 	 * 顧客情報一覧画面に遷移する
 	 */
 	@GetMapping("/list")
-	public String start(Model model) {
+	public String clientList(Model model) {
 
 		// 画面遷移先を顧客情報一覧画面に指定
 		String res = "client/client_list";
@@ -118,17 +119,17 @@ public class ClientController {
 		// 画面遷移先を顧客情報登録画面に指定
 		String res = "client/client_edit";
 
+		Client client = new Client();
+
 		// 既存社員情報の編集時判定
 		if (c_id != null) {
 			//選択された顧客情報を抽出
-			Map<String, Object> clt = clientService.searchClient(c_id);
+			client = clientService.searchClient(c_id);
 
-			//編集画面に顧客名を表示
-			model.addAttribute("client_name", clt.get("client_name"));
-
-			//編集に利用する社員IDをセッションに保存
-			session.setAttribute("c_id", c_id);
 		}
+
+		//編集画面に顧客名を表示
+		model.addAttribute("client", client);
 
 		return res;
 	}

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import jp.co.nexus.erm.model.Client;
 import jp.co.nexus.erm.repository.ClientDao;
 import jp.co.nexus.erm.repository.EmployeeDao;
 import jp.co.nexus.erm.repository.ReportDao;
@@ -128,11 +129,12 @@ public class ClientService{
 	/**
 	 * 顧客IDで指定された顧客情報を返す。
 	 * @param clientId 抽出対象の顧客IDのInteger
-	 * @return clt 抽出結果のMap
+	 * @return client 顧客情報インスタンス
 	 */
-    public Map<String, Object> searchClient(Integer clientId){
-    	Map<String, Object> clt = clientDao.searchClient(clientId);
-    	return clt;
+    public Client searchClient(Integer clientId){
+    	Map<String, Object> map = clientDao.searchClient(clientId);
+    	Client client = new Client(map);
+    	return client;
     }
 
 }
