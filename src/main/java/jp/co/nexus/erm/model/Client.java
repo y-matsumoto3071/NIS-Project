@@ -10,36 +10,46 @@ import java.util.Map;
  *
  */
 public class Client {
-	// 顧客ID
+	/** 顧客ID */
 	private String client_id;
 
-	// 顧客社名
+	/** 顧客社名 */
 	private String client_name;
 
-	// 削除フラグ
+	/** 削除フラグ */
 	private String deleteflg;
 
-	// 作成日付
+	/** 作成日付 */
 	private String createdate;
 
-	// 更新日付
+	/** 更新日付 */
 	private String updatedate;
 
-
-	public Client(Map<String, Object> map) {
-		this.client_id = map.get("client_id").toString();
-		this.client_name = map.get("client_name").toString();
-		this.deleteflg = map.get("deleteflg").toString();
-		this.createdate = map.get("createdate").toString();
-		this.updatedate = map.get("updatedate").toString();
-	}
-
+	/** 顧客情報を空文字で初期化 */
 	public Client() {
 		this.client_id = "";
 		this.client_name = "";
 		this.deleteflg = "";
 		this.createdate = "";
 		this.updatedate = "";
+	}
+	
+	/** 顧客情報をmapで初期化
+	 * @param map 顧客情報テーブルから抽出したレコード
+	 */
+	public Client(Map<String, Object> map) {
+		this();
+		
+		try {
+			this.client_id = map.get("client_id").toString();
+			this.client_name = map.get("client_name").toString();
+			this.deleteflg = map.get("deleteflg").toString();
+			this.createdate = map.get("createdate").toString();
+			this.updatedate = map.get("updatedate").toString();
+			
+		} catch(NullPointerException e) {
+			// mapがnullの場合は何もしない
+		}
 	}
 
 	public String getClient_id() {

@@ -78,14 +78,24 @@ public class ClientDao {
 	 */
 	public Map<String, Object> searchClient(Integer clientId) {
 
+		Map<String, Object> clt = null;
+		
 		// SQL文作成
-		String sql = "SELECT * FROM client WHERE client_id= ?";
+		String sql = "SELECT * FROM client "
+				+ "WHERE client_id = ? "
+				+ "AND deleteflg != 0;";
 
 		// ？の箇所を置換するデータの配列を定義
 		Object[] param = { clientId };
 
-		// クエリを実行
-		Map<String, Object> clt = jdbcTemplate.queryForMap(sql, param);
+		try {
+			// クエリを実行
+			clt = jdbcTemplate.queryForMap(sql, param);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			
+		}
 
 		// 取得したデータを返す
 		return clt;
