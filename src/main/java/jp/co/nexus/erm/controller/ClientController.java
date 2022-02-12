@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jp.co.nexus.erm.model.Client;
 import jp.co.nexus.erm.model.ClientEditForm;
 import jp.co.nexus.erm.service.ClientService;
-import jp.co.nexus.erm.service.PasswordService;
 
 /**
  * ClientController.java
@@ -37,9 +36,6 @@ public class ClientController {
 
 	@Autowired
 	ClientService clientService;
-
-	@Autowired
-	PasswordService passwordService;
 
 	/**
 	 * CL-010-010 顧客一覧画面遷移
@@ -59,11 +55,7 @@ public class ClientController {
 
 	/**
 	 * CD-010-010 顧客削除処理
-	 * ★論理削除時に実行
-	 * 以下の時はエラーを発出
-	 * ・パスワード未入力
-	 * ・チェックボックス未選択
-	 * ・パスワード誤入力
+	 * 選択された顧客を論理削除する
 	 */
 	@PostMapping("/delete")
 	public String deleteClient(@RequestParam(name = "selectCheck", required = false) String[] c_id,
