@@ -19,7 +19,7 @@
 	<div class="m-3">
 	<h1>社員情報登録</h1>
 
-		<form method="post" action="/employee/edit">
+		<form method="post" action="/employee/regist">
 
 			<!-- 各注意文を表示する-->
 			<div class="text-danger" th:text="${Result}"></div>
@@ -43,36 +43,14 @@
 			</div>
 
 			<div class="col-md-auto input-group-sm">
-			<label style="line-height:0rem;" class="small font-weight-bold" for="select2a">チーム／エリア</label>
+			<label style="line-height:0rem;" class="small font-weight-bold" for="select2a">エリア</label>
 			<select id="select2a" class="form-control" name="e_team">
 				<option
-					th:selected="${#strings.substringAfter(employee_category,'g')} == null">チームを選択</option>
+					th:selected="${#strings.substringAfter(employee_category,'g')} == null">エリアを選択</option>
 				<option value="h0"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 'h0'">浜松エリア</option>
+					th:selected="${#strings.substringAfter(employee_category,'g')} == 'h0'">浜松</option>
 				<option value="t0"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 't0'">東京エリア</option>
-				<option value="h1"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 'h1'">浜松1チーム</option>
-				<option value="h2"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 'h2'">浜松2チーム</option>
-				<option value="h3"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 'h3'">浜松3チーム</option>
-				<option value="h4"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 'h4'">浜松4チーム</option>
-				<option value="h5"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 'h5'">浜松5チーム</option>
-				<option value="t1"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 't1'">東京1チーム</option>
-				<option value="t2"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 't2'">東京2チーム</option>
-				<option value="t3"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 't3'">東京3チーム</option>
-				<option value="t4"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 't4'">東京4チーム</option>
-				<option value="t5"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 't5'">東京5チーム</option>
-				<option value="t6"
-					th:selected="${#strings.substringAfter(employee_category,'g')} == 't6'">東京6チーム</option>
+					th:selected="${#strings.substringAfter(employee_category,'g')} == 't0'">東京</option>
 			</select>
 			</div>
 			</div>

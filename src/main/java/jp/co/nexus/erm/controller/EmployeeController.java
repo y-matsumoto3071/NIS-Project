@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.nexus.erm.model.EmployeeCategoryModel;
 import jp.co.nexus.erm.service.EmployeeService;
-import jp.co.nexus.erm.service.PasswordService;
 
 /**
  * EmployeeController.java
@@ -39,9 +38,6 @@ public class EmployeeController {
 
 	@Autowired
 	HttpSession session;
-
-	@Autowired
-	PasswordService passwordService;
 
 	EmployeeCategoryModel ecm = new EmployeeCategoryModel();
 
@@ -76,15 +72,10 @@ public class EmployeeController {
 
 	/**
 	 * ED-010-010 社員削除処理
-	 * ★論理削除時に実行
-	 * 以下の時はエラーを発出
-	 * ・パスワード未入力
-	 * ・チェックボックス未選択
-	 * ・パスワード誤入力
+	 * 選択した社員情報を論理削除する
 	 */
-	@PostMapping("/list")
+	@PostMapping("/delete")
 	public String deleteEmployee(@RequestParam(name = "selectCheck", required = false) String[] e_id,
-			@RequestParam(name = "adminPW", defaultValue = "") String adminPW,
 			RedirectAttributes attr) {
 
 		// 画面遷移先を社員情報一覧画面へのリダイレクトに指定
@@ -93,27 +84,9 @@ public class EmployeeController {
 		// エラーメッセージを格納する変数をインスタンス化
 		String attributeValue = new String();
 
-		String active_pw = passwordService.getPassword(1);
-
-		// パスワードが未入力の場合
-		if (adminPW.equals("")) {
-			attributeValue = "パスワードを入力してください。";
-
-		// 削除対象が選択されていない場合
-		} else if(e_id == null){
-			attributeValue = "削除する社員を選択してください。";
-
-		// 正規入力されている場合
-		} else if (adminPW.equals(active_pw)) {
-			//★論理削除を実行
-			int result = employeeService.deleteEmployee(e_id);
-			attributeValue = result + "件削除しました。";
-
-		// 上記条件に合致しない場合、パスワード誤入力と判定
-		} else {
-			attributeValue = "パスワードが間違っています。";
-
-		}
+		// 論理削除を実行
+		int result = employeeService.deleteEmployee(e_id);
+		attributeValue = result + "件削除しました。";
 
 		attr.addFlashAttribute("Result", attributeValue);
 
@@ -154,7 +127,7 @@ public class EmployeeController {
 	 * EC-010-020 社員新規登録内容DB登録
 	 * EE-010-020 社員情報編集内容DB登録
 	 */
-	@PostMapping("/edit")
+	@PostMapping("/regist")
 	public String createEmployee(@RequestParam(name="e_name", defaultValue = "") String e_name,
 			@RequestParam(name="e_group", defaultValue = "") String e_group,
 			@RequestParam(name="e_team", defaultValue = "") String e_team,
