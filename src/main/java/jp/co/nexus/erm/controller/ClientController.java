@@ -7,15 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.nexus.erm.model.Client;
+import jp.co.nexus.erm.model.ClientEditForm;
 import jp.co.nexus.erm.service.ClientService;
 import jp.co.nexus.erm.service.PasswordService;
 
@@ -140,11 +143,12 @@ public class ClientController {
 	 * CE-010-020_顧客編集内容DB登録
 	 */
 	@PostMapping("/regist")
-	public String createClient(@RequestParam("client_name") String c_name,
-			@RequestParam(name = "client_id", defaultValue = "") String c_id,
-			Model model,
-			RedirectAttributes attr) {
-
+	public String createClient(@ModelAttribute ClientEditForm clientEditForm,
+			Model model, RedirectAttributes attr) {
+		
+		// フォームから顧客IDを取得
+		String c_id = clientEditForm.getClient_id();
+		
 		// 画面遷移先を顧客情報一覧画面へのリダイレクトに指定
 		String res = "redirect:/client/list";
 
@@ -157,20 +161,27 @@ public class ClientController {
 		// エラーメッセージを格納する変数をインスタンス化
 		String attributeValue = new String();
 
-		// 未入力チェック
-		if (c_name.equals("")) {
-			invalid = true;
-			attributeValue = "名前を入力してください。";
-
-		// 未入力以外
-		} else {
+		try {
 			// 編集時はUPDATE、新規登録時はINSERTを実行
-			attributeValue = clientService.registJudge(c_name, c_id);
-
-			// 社名が重複している場合はリダイレクト先を編集画面へ指定
-			if (attributeValue.equals("社名が重複しています。")) {
-				invalid = true;
+			if (isUpdating) {
+				clientService.editClient(clientEditForm);
+				attributeValue = "更新が完了しました。";
+				
+			} else {
+				clientService.registClient(clientEditForm);			
+				attributeValue = "登録が完了しました。";
+				
 			}
+			
+		} catch (DuplicateKeyException e) {
+			invalid = true;
+			attributeValue = "社名が重複しています。";
+			
+		} catch (Exception e) {
+			invalid = true;
+			attributeValue = "不明なエラー";
+			e.printStackTrace();
+			
 		}
 
 		// 入力値が無効な場合は編集画面へリダイレクト

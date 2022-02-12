@@ -8,6 +8,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import jp.co.nexus.erm.model.ClientEditForm;
+
 /**
  * ClientDao.java
  * 顧客管理機能で使用する顧客情報の登録・検索・編集・削除に関するSQLを
@@ -126,15 +128,16 @@ public class ClientDao {
 
 	/**
 	 * 顧客情報をINSERTするSQLを実行する。
-	 * @param c_name INSERTする顧客名のString
+	 * @param cef 顧客編集画面の入力フォーム
 	 * @return INSERT件数
 	 */
-	public int registClient(String c_name) {
+	public int registClient(ClientEditForm cef) {
 
 		// 実行結果
 		int result = 0;
 
 		// TODO: 処理を追加してみましょう
+		
 
 		// 実行結果を返す
 		return result;
@@ -142,14 +145,15 @@ public class ClientDao {
 
 	/**
 	 * 登録された顧客情報をUPDATEするSQLを実行する
-	 * @param c_name UPDATE後の顧客名のString
-	 * @param c_id UPDATE対象の顧客IDのString
+	 * @param cef 顧客編集画面の入力フォーム
+	 * @return INSERT件数
 	 */
-	public int editClient(String c_name, String c_id) {
+	public int editClient(ClientEditForm cef) {
 		// 編集した件数
 		int result = 0;
 
 		// TODO: 処理を追加してみましょう
+		
 
 		// 実行件数を返す
 		return result;
