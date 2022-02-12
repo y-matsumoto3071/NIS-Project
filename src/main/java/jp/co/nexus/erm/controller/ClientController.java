@@ -67,7 +67,6 @@ public class ClientController {
 	 */
 	@PostMapping("/delete")
 	public String deleteClient(@RequestParam(name = "selectCheck", required = false) String[] c_id,
-			@RequestParam(name = "adminPW", defaultValue = "") String adminPW,
 			RedirectAttributes attr) {
 
 		// 画面遷移先を顧客情報一覧画面へのリダイレクトに指定
@@ -76,28 +75,10 @@ public class ClientController {
 		// エラーメッセージを格納する変数をインスタンス化
 		String attributeValue = new String();
 
-		String active_pw = passwordService.getPassword(1);
-
-		// パスワードが未入力の場合
-		if (adminPW.equals("")) {
-			attributeValue = "パスワードを入力してください。";
-
-		// 削除対象が選択されていない場合
-		} else if (c_id == null) {
-			attributeValue = "削除する顧客を選択してください。";
-
-		// 正規入力されている場合
-		} else if (adminPW.equals(active_pw)) {
-			//論理削除実行
-			int result = clientService.deleteClient(c_id);
-			attributeValue = result + "件削除しました。";
-
-		// 上記条件に合致しない場合、パスワード誤入力と判定
-		} else {
-			attributeValue = "パスワードが間違っています。";
-
-		}
-
+		//論理削除実行
+		int result = clientService.deleteClient(c_id);
+		attributeValue = result + "件削除しました。";
+		
 		attr.addFlashAttribute("Result", attributeValue);
 
 		return res;

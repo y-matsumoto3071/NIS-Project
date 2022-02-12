@@ -33,10 +33,10 @@
 			<input type="hidden" name="client_id" th:value="*{client_id}">
 		</div>
 		<div class="my-3">
-			<button type="submit" class="btn btn-outline-primary"
-				th:if="*{client_id == ''}">登録</button>
-			<button type="submit" class="btn btn-outline-primary ml-1"
-				th:if="*{client_id != ''}">編集</button>
+			<button type="button" class="btn btn-outline-primary"
+				th:if="*{client_id == ''}" onclick="emptyCheck()">登録</button>
+			<button type="button" class="btn btn-outline-primary ml-1"
+				th:if="*{client_id != ''}" onclick="emptyCheck()">編集</button>
 			<button type="button" class="btn btn-outline-primary ml-1"
 				onclick="location.href='/client/list'">キャンセル</button>
 		</div>
@@ -56,6 +56,8 @@
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
 		crossorigin="anonymous"></script>
 	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/client/client_edit.js"></script>
+	
 </body>
 
 </html>
