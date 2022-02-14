@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -63,14 +64,26 @@ public class EmployeeDao {
 	 */
     public Map<String, Object> searchEmployee(Integer employeeId) {
 
+        Map<String, Object> emp = null;
+
         // SQL文作成
-        String sql = "SELECT * FROM employee WHERE employee_id= ?";
+        String sql = "SELECT * FROM employee "
+        		+ "WHERE employee_id= ? "
+				+ "AND deleteflg != 0;";
 
         // ？の箇所を置換するデータの配列を定義
         Object[] param = {employeeId};
 
-        // クエリを実行
-        Map<String, Object> emp = jdbcTemplate.queryForMap(sql, param);
+        try {
+        	// クエリを実行
+        	emp = jdbcTemplate.queryForMap(sql, param);
+
+        } catch(EmptyResultDataAccessException e) {
+        	System.out.println("EmployeeDao.searchEmployee()でEmptyResultDataAccessExceptionをcatchしました:\n"
+				+ "パラメータ " + employeeId + " でのデータ取得結果は" + e.getActualSize() + "件です。\n"
+				+ emp + " を返します。");
+
+        }
 
         // 取得したデータを返す
         return emp;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jp.co.nexus.erm.model.Employee;
 import jp.co.nexus.erm.model.EmployeeCategoryModel;
 import jp.co.nexus.erm.service.EmployeeService;
 
@@ -108,17 +109,11 @@ public class EmployeeController {
 		// 既存社員情報の編集時判定
 		if (e_id != null) {
 			//選択された社員の情報を検索
-			Map<String, Object> emp = employeeService.searchEmployee(e_id);
+			Employee employee = employeeService.searchEmployee(e_id);
 
-			//編集画面に社員名を表示
-			model.addAttribute("employee_name", emp.get("employee_name"));
+			//社員情報をスコープに保存
+			model.addAttribute("employee", employee);
 
-			//社員の所属をスコープに保存
-			String ec = emp.get("employee_category").toString();
-			model.addAttribute("employee_category", ec);
-
-			//編集に利用する社員IDをセッションに保存
-			session.setAttribute("e_id", e_id);
 		}
 		return res;
 	}

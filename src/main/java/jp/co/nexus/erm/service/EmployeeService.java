@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import jp.co.nexus.erm.model.Employee;
 import jp.co.nexus.erm.repository.EmployeeDao;
 import jp.co.nexus.erm.repository.ReportDao;
 
@@ -129,9 +130,16 @@ public class EmployeeService{
 	 * @param employeeId 抽出対象の社員IDのInteger
 	 * @return emp 抽出結果のMap
 	 */
-    public Map<String, Object> searchEmployee(Integer employeeId){
+    public Employee searchEmployee(Integer employeeId){
     	Map<String, Object> emp = employeeDao.searchEmployee(employeeId);
-    	return emp;
+    	Employee employee = null;
+
+    	if (emp != null) {
+    		employee = new Employee(emp);
+
+    	}
+
+    	return employee;
     }
 
 }
